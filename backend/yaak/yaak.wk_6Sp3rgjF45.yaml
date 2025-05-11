@@ -1,0 +1,10 @@
+type: workspace
+model: workspace
+id: wk_6Sp3rgjF45
+createdAt: 2025-05-11T15:48:36.850117
+updatedAt: 2025-05-11T16:16:42
+name: aura
+description: ''
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

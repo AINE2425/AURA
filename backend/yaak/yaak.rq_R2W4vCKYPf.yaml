@@ -1,0 +1,30 @@
+type: http_request
+model: http_request
+id: rq_R2W4vCKYPf
+createdAt: 2025-05-11T16:16:26.874538
+updatedAt: 2025-05-11T16:26:31.105719
+workspaceId: wk_6Sp3rgjF45
+folderId: null
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "abstract": "Sentiment analysis is a method within natural language processing that evaluates and identifies the emotional tone or mood conveyed in textual data. Scrutinizing words and phrases categorizes them into positive, negative, or neutral sentiments. The significance of sentiment analysis lies in its capacity to derive valuable insights from extensive textual data, empowering businesses to grasp customer  sentiments, make informed choices, and enhance their offerings. For the further advancement of sentiment analysis, gaining a deep understanding of its algorithms, applications, current performance, and challenges is imperative. Therefore, in this extensive survey, we began exploring the vast array of application domains for sentiment analysis, scrutinizing them within the context of existing research. We then delved into prevalent pre-processing techniques, datasets, and evaluation metrics to enhance comprehension. We also explored  Machine Learning, Deep Learning, Large Language Models and Pre-trained models in sentiment analysis, providing insights into their advantages and drawbacks. Subsequently, we precisely reviewed the experimental results and limitations of recent state-of-the-art articles. Finally, we discussed the diverse challenges encountered in sentiment analysis and proposed  future research directions to mitigate these concerns. This extensive review provides a complete understanding of sentiment analysis, covering its models, application domains, results analysis, challenges, and research directions."
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: sb7i9rndJv
+method: POST
+name: keywords
+sortPriority: -1746980200000.0
+url: http://localhost:8000/generate-keywords/
+urlParameters:
+- enabled: true
+  name: ''
+  value: ''
+  id: 4sQWbM8PFx

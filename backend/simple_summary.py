@@ -1,5 +1,5 @@
 import random
-from typing import List
+from typing import List, Tuple
 
 import pandas as pd
 import spacy
@@ -165,12 +165,14 @@ def calculate_positive_and_negative_keywords(docs, clusters: List[List[str]]) ->
     return positive_keywords, negative_keywords
 
 
-def summarize_clusters(clusters):
+def summarize_clusters(
+    clusters: List[List[str]],
+) -> List[Tuple[List[str], List[str], str]]:
     """
     Summarizes clusters using Spacy's NLP pipeline and TF-IDF.
 
     :param clusters: List of clusters to summarize
-    :return: List of summarized clusters
+    :return: List of tuples containing positive keywords, negative keywords, and summar
     """
     # Cargamos el modelo de spacy
     # Se puede cambiar por otro modelo, como 'es_core_news_sm' para español
@@ -195,4 +197,4 @@ def summarize_clusters(clusters):
         negative_terms = negative_keywords[i]
         summaries.append(summarize_cluster(positive_terms, negative_terms, i + 1))
 
-    return zip(clusters, summaries)
+    return zip(positive_keywords, negative_keywords, summaries)

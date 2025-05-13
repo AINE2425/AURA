@@ -78,6 +78,14 @@ def select_representative_subset(
 def summarize_cluster(
     docs: List[str], positive_terms: List[str], negative_terms: List[str]
 ) -> str:
+    """
+    This function summarizes a cluster of documents using the Gemini API.
+
+    :param docs: List of abstracts to summarize (cluster).
+    :param positive_terms: List of positive terms for the cluster.
+    :param negative_terms: List of negative terms for the cluster.
+    :return: A detailed summary of the cluster.
+    """
     client = genai.Client(api_key=GEMINI_API_KEY)
     reduced_docs = select_representative_subset(docs, MODEL_MAX_TOKENS)[0]
 
@@ -102,13 +110,24 @@ def summarize_cluster(
 
 
 def compare_clusters(
-    cluster1_docs,
-    cluster1_positive_terms,
-    cluster1_negative_terms,
-    cluster2_docs,
-    cluster2_positive_terms,
-    cluster2_negative_terms,
+    cluster1_docs: List[str],
+    cluster1_positive_terms: List[str],
+    cluster1_negative_terms: List[str],
+    cluster2_docs: List[str],
+    cluster2_positive_terms: List[str],
+    cluster2_negative_terms: List[str],
 ):
+    """
+    This function compares two clusters of documents and generates a detailed comparison.
+
+    :param cluster1_docs: List of documents in the first cluster.
+    :param cluster1_positive_terms: List of positive terms for the first cluster.
+    :param cluster1_negative_terms: List of negative terms for the first cluster.
+    :param cluster2_docs: List of documents in the second cluster.
+    :param cluster2_positive_terms: List of positive terms for the second cluster.
+    :param cluster2_negative_terms: List of negative terms for the second cluster.
+    :return: A detailed comparison of the two clusters.
+    """
     client = genai.Client(api_key=GEMINI_API_KEY)
     reduced_cluster1_docs = select_representative_subset(
         cluster1_docs, MODEL_MAX_TOKENS / 2

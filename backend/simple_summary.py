@@ -1,3 +1,4 @@
+import os
 import random
 from typing import List, Tuple
 
@@ -174,8 +175,9 @@ def summarize_clusters(
     :param clusters: List of clusters to summarize
     :return: List of tuples containing positive keywords, negative keywords, and summar
     """
-    # Cargamos el modelo de spacy
-    # Se puede cambiar por otro modelo, como 'es_core_news_sm' para español
+    # Ensure the required Spacy model is downloaded
+    # sorry
+    os.system("python -m spacy download en_core_web_lg")
     nlp = spacy.load("en_core_web_lg")
 
     docs = [

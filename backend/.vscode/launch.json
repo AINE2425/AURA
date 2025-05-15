@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch FastMCP",
+      "program": "${workspaceFolder}/${input:programPath}",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "programPath",
+      "description": "Enter the path to the Python file to run (e.g., mcp.py)"
+    }
+  ]
+}

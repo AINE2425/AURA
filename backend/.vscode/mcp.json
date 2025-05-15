@@ -1,0 +1,7 @@
+{
+    // 💡 Inputs are prompted on first server start, then stored securely by VS Code.
+    "inputs": [],
+    "servers": {
+    }
+  }
+  

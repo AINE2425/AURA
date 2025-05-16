@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import DBSCAN, OPTICS, AgglomerativeClustering, KMeans
@@ -159,42 +158,5 @@ def cluster_abstracts(abstracts, algorithm="kmeans", params=None):
             clusters[label] = []
         clusters[label].append(abstract)
     cluster_list = [clusters[label] for label in sorted(clusters.keys())]
-    return cluster_list
 
-
-def plot_clusters(X_proj, labels, title, is_3d=False):
-    unique_labels = sorted(set(labels))
-    colors = plt.cm.get_cmap("tab10", len(unique_labels))
-
-    if is_3d:
-        fig = plt.figure(figsize=(8, 6))
-        ax = fig.add_subplot(111, projection="3d")
-        for i, label in enumerate(unique_labels):
-            mask = labels == label
-            ax.scatter(
-                X_proj[mask, 0],
-                X_proj[mask, 1],
-                X_proj[mask, 2],
-                label=f"Cluster {label}",
-                s=20,
-                color=colors(i),
-            )
-        ax.set_title(title)
-        ax.legend()
-    else:
-        plt.figure(figsize=(8, 6))
-        for i, label in enumerate(unique_labels):
-            mask = labels == label
-            plt.scatter(
-                X_proj[mask, 0],
-                X_proj[mask, 1],
-                label=f"Cluster {label}",
-                s=20,
-                color=colors(i),
-            )
-        plt.title(title)
-        plt.xlabel("PCA 1")
-        plt.ylabel("PCA 2")
-        plt.legend()
-    plt.tight_layout()
-    plt.show()
+    return cluster_list, embeddings, best["labels"]

@@ -3,13 +3,21 @@ from typing import List
 import numpy as np
 import plotly.express as px
 from clustering import cluster_abstracts
+from detailed_summary import compare_clusters
+from detailed_summary import summarize_cluster as detailed_summarize_clusters
 from fastmcp import FastMCP
 from keywords import abstract_to_keywords
 from sentence_transformers import SentenceTransformer
 from simple_summary import summarize_clusters as simple_summarize_clusters
 from sklearn.decomposition import PCA
 
-mcp = FastMCP("AURA - Augmented Unsupervised Research Analyzer")
+mcp = FastMCP(
+    name="AURA - Augmented Unsupervised Research Analyzer",
+    instructions="""
+    You are a very experienced and skilled researchered and reviewer.
+    You can only use the tools AURA provides for summarizing, clustering, or compare.
+    """,
+)
 
 
 class SimpleSummary:
@@ -39,14 +47,13 @@ async def health_check(request):
 @mcp.tool()
 async def keyword_extractor(abstract: str) -> str:
     """
-    Given an abstract, return a list of keywords.
-    Example:
-    "This is an abstract about machine learning and its applications."
-    will return:
-    [
-        "machine learning",
-        "applications"
-    ]
+    Extract keywords from a given abstract.
+
+    Args:
+        abstract (str): The abstract text to extract keywords from.
+
+    Returns:
+        str: A list of keywords extracted from the abstract.
     """
     return abstract_to_keywords(abstract)
 
@@ -172,6 +179,58 @@ async def simple_cluster_summary(clusters: List[List[str]]) -> List[SimpleSummar
     ):
         summaries.append(SimpleSummary(positive_keywords, negative_keywords, summary))
     return summaries
+
+
+@mcp.tool()
+async def detailed_cluster_summary(
+    docs: List[str], positive_terms: List[str], negative_terms: List[str]
+) -> str:
+    """
+    Generate a detailed summary for a cluster of documents. DEPENDS ON SIMPLE SUMMARY
+
+    Args:
+        docs (List[str]): A list of documents (abstracts) in the cluster.
+        positive_terms (List[str]): A list of positive terms associated with the cluster.
+        negative_terms (List[str]): A list of negative terms associated with the cluster.
+
+    Returns:
+        str: A detailed summary of the cluster, including reasoning and key insights.
+    """
+
+    return detailed_summarize_clusters(docs, positive_terms, negative_terms)
+
+
+@mcp.tool()
+async def compare(
+    cluster1_docs: List[str],
+    cluster1_positive_terms: List[str],
+    cluster1_negative_terms: List[str],
+    cluster2_docs: List[str],
+    cluster2_positive_terms: List[str],
+    cluster2_negative_terms: List[str],
+) -> str:
+    """
+    Compare two clusters of documents and generate a detailed comparison.
+
+    Args:
+        cluster1_docs (List[str]): A list of documents in the first cluster.
+        cluster1_positive_terms (List[str]): A list of positive terms for the first cluster.
+        cluster1_negative_terms (List[str]): A list of negative terms for the first cluster.
+        cluster2_docs (List[str]): A list of documents in the second cluster.
+        cluster2_positive_terms (List[str]): A list of positive terms for the second cluster.
+        cluster2_negative_terms (List[str]): A list of negative terms for the second cluster.
+
+    Returns:
+        str: A detailed comparison of the two clusters, including reasoning, overlap, and differences.
+    """
+    return compare_clusters(
+        cluster1_docs,
+        cluster1_positive_terms,
+        cluster1_negative_terms,
+        cluster2_docs,
+        cluster2_positive_terms,
+        cluster2_negative_terms,
+    )
 
 
 def main():

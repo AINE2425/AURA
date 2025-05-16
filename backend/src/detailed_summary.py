@@ -2,21 +2,24 @@ import os
 from typing import List, Tuple
 
 import numpy as np
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity  # For document similarity
-
 from prompts import (
     COMPARISON_PROMPT,
     COMPARISON_SYS_PROMPT,
     SUMMARY_PROMPT,
     SUMMARY_SYS_PROMPT,
 )
+from pydantic import BaseModel
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity  # For document similarity
+
+load_dotenv()
+
 
 GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
-MODEL_MAX_TOKENS = os.environ["MODEL_MAX_TOKENS"]
+MODEL_MAX_TOKENS = int(os.environ["MODEL_MAX_TOKENS"])
 
 
 class DetailedSummary(BaseModel):
@@ -87,7 +90,7 @@ def summarize_cluster(
     :return: A detailed summary of the cluster.
     """
     client = genai.Client(api_key=GEMINI_API_KEY)
-    reduced_docs = select_representative_subset(docs, MODEL_MAX_TOKENS)[0]
+    reduced_docs = select_representative_subset(docs, int(MODEL_MAX_TOKENS))[0]
 
     prompt = SUMMARY_PROMPT.format(reduced_docs, positive_terms, negative_terms)
 

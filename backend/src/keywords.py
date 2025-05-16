@@ -1,8 +1,9 @@
 import os
 
-import google.generativeai as genai
 import torch
 from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 from keybert import KeyBERT
 from transformers import AutoModel, AutoTokenizer
 
@@ -10,7 +11,7 @@ load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
-    genai.configure(api_key=api_key)
+    pass
 else:
     raise EnvironmentError("GEMINI_API_KEY environment variable not found.")
 
@@ -79,10 +80,15 @@ def build_prompt(abstract, key_phrases):
 
 
 def generate_keywords_gemini(prompt):
-    model = genai.GenerativeModel("gemini-2.0-flash")
-
-    response = model.generate_content(prompt)
-
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    chat = client.chats.create(
+        model="gemini-2.0-flash",
+        history=[types.Content(role="user", parts=[types.Part(text=prompt)])],
+        config={
+            "response_mime_type": "text/plain",
+        },
+    )
+    response = chat.send_message(message=prompt)
     return response.text.strip()
 
 

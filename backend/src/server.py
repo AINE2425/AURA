@@ -2,6 +2,7 @@ from typing import List
 
 import numpy as np
 import plotly.express as px
+from abstract_search import get_abstracts_by_keywords
 from clustering import cluster_abstracts
 from detailed_summary import compare_clusters
 from detailed_summary import summarize_cluster as detailed_summarize_clusters
@@ -56,6 +57,22 @@ async def keyword_extractor(abstract: str) -> str:
         str: A list of keywords extracted from the abstract.
     """
     return abstract_to_keywords(abstract)
+
+
+@mcp.tool()
+async def get_articles(keywords: List[str]) -> dict:
+    """
+    Retrieve abstracts based on a list of keywords.
+
+    Args:
+        keywords (List[str]): A list of keywords to search for.
+
+    Returns:
+        dict: A dictionary where the key is the name of the paper, and the value is another dictionary
+              containing the abstract and the link to the paper.
+    """
+
+    return get_abstracts_by_keywords(keywords)
 
 
 @mcp.tool()

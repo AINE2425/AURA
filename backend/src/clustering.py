@@ -47,8 +47,25 @@ def run_kmeans(X, k_list):
     return {"results": results, "elbow_point": elbow_point}
 
 
-def run_dbscan(X, eps_list, min_samples=3):
+def run_dbscan(X, eps_list=None, min_samples=3):
     dists = cosine_distances(X)
+    if eps_list is None or not eps_list:
+        dist_condensed = dists[np.triu_indices(dists.shape[0], k=1)]
+        eps_list = np.concatenate(
+            [
+                np.linspace(
+                    np.percentile(dist_condensed, 5),
+                    np.percentile(dist_condensed, 50),
+                    4,
+                ),
+                np.linspace(
+                    np.percentile(dist_condensed, 50),
+                    np.percentile(dist_condensed, 95),
+                    4,
+                )[1:],
+            ]
+        ).tolist()
+
     results = []
     for eps in eps_list:
         model = DBSCAN(eps=eps, min_samples=min_samples, metric="precomputed")
@@ -118,13 +135,26 @@ def cluster_abstracts(abstracts, algorithm="kmeans", params=None):
             ),
         )
     elif algorithm == "dbscan":
-        eps_list = params.get("eps_list", [0.3, 0.4, 0.5])
+        eps_list = params.get("eps_list", None)
         min_samples = params.get("min_samples", 3)
         results = run_dbscan(embeddings, eps_list, min_samples)
         if not results:
-            raise ValueError(
-                "DBSCAN could not form any valid clusters with the given parameters."
-            )
+            if min_samples > 2:
+                results = run_dbscan(embeddings, eps_list, 2)
+
+            if not results:
+                print(
+                    "Warning: DBSCAN failed to find valid clusters. Falling back to KMeans."
+                )
+                # Fall back to KMeans with a reasonable number of clusters
+                k = min(8, max(2, len(abstracts) // 5))
+                k_list = [k]
+                output = run_kmeans(embeddings, k_list)
+                results = output["results"]
+                if not results:
+                    raise ValueError(
+                        "Both DBSCAN and KMeans fallback failed to form valid clusters."
+                    )
         best = max(
             results,
             key=lambda x: np.mean(

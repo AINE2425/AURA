@@ -7,9 +7,10 @@
 
 This project is a proof of concept on an automated research agent that, given an initial paper abstract, is able to extract keywords for the user to conduct a related work review assisted by AURA.
 
-More specifically, we define the following components, which are exposed via a MCP server:
+More specifically, we define the following components, which are exposed via a Model Context Protocol (MCP) server:
 
 - **Keyword Extraction**: Given a paper abstract, extract keywords that are relevant to the paper.
+- **Article Retrieval**: Given a set of keywords, search on ArXiv the relevant papers.
 - **Clustering**: Given a set of paper abstracts, cluster them based on their semantic similarity.
 - **Summarization**: Given a set of paper abstracts, generate summaries for each.
 
@@ -18,6 +19,10 @@ More specifically, we define the following components, which are exposed via a M
 The keyword extraction module automatically identifies and extracts the most salient terms and phrases from research paper abstracts. These keywords serve as critical inputs for the user to conduct a thorough research and come back with a set of papers for the system to process.
 
 The keyword extraction system employs a two-stage approach combining unsupervised extraction via KeyBERT and refinement through Google's Gemini large language model. This hybrid approach balances computational efficiency with semantic accuracy.
+
+## Article Retrieval
+
+(TODO)
 
 ## Clustering
 
@@ -40,3 +45,17 @@ The summarization module provides the following functionalities:
 3. **Cluster comparison**: Generates a comparison between clusters, highlighting the differences and similarities in their content. This is done by once again leveraging large language models.
 
 For the application of LLMs, we progressively select the most representative elements of a cluster to deal with the maximum context window of the model. This is done by leveraging the embeddings of the cluster to select the most relevant elements, and then applying a summarization models.
+
+## Model Context Protocol (MCP)
+
+The backend of AURA is powered by the Model Context Protocol (MCP), which enables seamless interaction between the user interface and the core functionality. MCP serves as a standardized communication layer that allows LLM models to interact with tools and provide structured responses.
+
+The MCP server in AURA exposes the following tools:
+
+1. **Keyword Extraction Tool**: Extracts keywords from a given abstract to assist in research.
+2. **Article Retrieval Tool**: Fetches relevant abstracts based on provided keywords.
+3. **Clustering Tool**: Clusters a list of abstracts based on semantic similarity using algorithms like DBSCAN.
+4. **Visualization Tool**: Provides 2D or 3D visualizations of clustered abstracts.
+5. **Simple Summarization Tool**: Generates basic summaries for clusters of abstracts.
+6. **Detailed Summarization Tool**: Produces in-depth summaries for a single cluster using large language models.
+7. **Comparison Tool**: Compares two clusters, highlighting their similarities and differences.

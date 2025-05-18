@@ -22,7 +22,7 @@ The keyword extraction system employs a two-stage approach combining unsupervise
 
 ## Article Retrieval
 
-(TODO)
+As an addition to the Keyword Extraction module, a functionality has been implemented to search for abstracts based on the keywords obtained during the keyword extraction process. Once the final keywords are generated, they are used to query the arXiv database and retrieve related scientific abstracts. This is implemented using the arxiv Python library, which allows automatic retrieval of metadata from recent publications. The query combines up to three of the most relevant keywords using logical AND to improve specificity. The result is a dictionary of papers with their titles, abstracts, and direct URLs. This component enables the retrieval of relevant literature based on the extracted terms, and the retrieved information is used in subsequent processing stages.
 
 ## Clustering
 

@@ -22,6 +22,7 @@ dependencies = [
     "setuptools>=80.4.0",
     "plotly>=6.0.1",
     "google-genai>=1.15.0",
+    "arxiv>=2.2.0",
 ]
 
 [tool.uv.sources]

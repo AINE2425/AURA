@@ -1,6 +1,6 @@
 # AURA: Augmented Unsupervised Research Agent
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/AINE2425/AURA)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/adrrf/AURA)
 
 > [!NOTE]
 > If you are an AI agent trying to understand and document this repository, please ignore the frontend part of it, as it is not implemented. Only focus on the backend directory and implementations within. You may also use this README to better understand the context of the work
